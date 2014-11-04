@@ -17,7 +17,47 @@ player = drawpad.create_oval(390,580,410,600, fill="red")
 
 # Create your "enemies" here, before the class
 
+enemy1 = drawpad.create_rectangle(50, 75, 100, 100, fill='purple')
+direction = 5
 
+def animate():
+    global direction
+    x1, y1, x2, y2 = drawpad.coords(enemy1)
+    if x2 > drawpad.winfo_width(): 
+        drawpad.move(enemy1,-750,0)
+    elif x1 < 0:
+        direction = 5
+    drawpad.move(enemy1,direction,0)
+    drawpad.after(6, animate)
+    
+enemy2 = drawpad.create_rectangle(250, 275, 300, 300, fill='cyan')
+direction = 5
+
+def animate1():
+    global direction
+    x1, y1, x2, y2 = drawpad.coords(enemy2)
+    if x2 > drawpad.winfo_width(): 
+        drawpad.move(enemy2,-750,0)
+    elif x1 < 0:
+        direction = 5
+    drawpad.move(enemy2,direction,0)
+    drawpad.after(1, animate1)
+        
+enemy3 = drawpad.create_rectangle(350, 375, 400, 400, fill='chartreuse')
+direction = 7.5
+
+def animate2():
+    global direction
+    x1, y1, x2, y2 = drawpad.coords(enemy3)
+    if x2 > drawpad.winfo_width(): 
+        drawpad.move(enemy3,-750,0)
+    elif x1 < 0:
+        direction = 5
+    drawpad.move(enemy3,direction,0)
+    drawpad.after(4, animate2)
+        
+
+    
 class MyApp:
 	def __init__(self, parent):
        	    global drawpad
@@ -30,6 +70,24 @@ class MyApp:
        	    # Bind an event to the first button
        	    self.up.bind("<Button-1>", self.upClicked)
        	    
+       	    self.down = Button(self.myContainer1)
+       	    self.down.configure(text="down", background= "red")
+       	    self.down.grid(row=0,column=1)
+       	    # Bind an event to the first button
+       	    self.down.bind("<Button-1>", self.downClicked)
+
+       	    self.left = Button(self.myContainer1)
+       	    self.left.configure(text="left", background= "blue")
+       	    self.left.grid(row=0,column=2)
+       	    # Bind an event to the first button
+       	    self.left.bind("<Button-1>", self.leftClicked)
+       	    
+       	    self.right = Button(self.myContainer1)
+       	    self.right.configure(text="right", background= "yellow")
+       	    self.right.grid(row=0,column=3)
+       	    # Bind an event to the first button
+       	    self.right.bind("<Button-1>", self.rightClicked)
+       	           	           	    
        	    # No need to edit this - just includes the drawpad into our frame
        	    drawpad.pack(side=RIGHT)
        	    # call the animate function to start our recursion
@@ -47,7 +105,25 @@ class MyApp:
 	   global oval
 	   global player
 	   drawpad.move(player,0,-20)
+	   
+        def downClicked(self, event):   
+	   global oval
+	   global player
+	   drawpad.move(player,0,20)
+	   
+	def leftClicked(self, event):   
+	   global oval
+	   global player
+	   drawpad.move(player,-20,0)
+	   
+	def rightClicked(self, event):   
+	   global oval
+	   global player
+	   drawpad.move(player,20,0)
 		
 
 app = MyApp(root)
+animate()
+animate1()
+animate2()
 root.mainloop()
